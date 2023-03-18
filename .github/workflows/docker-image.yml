@@ -38,8 +38,7 @@ jobs:
 
     - name: Run test
       run: |
-        docker run --rm ${{ env.TEST_TAG }} npm test -- --coverage
-        # docker build -f ./client/Dockerfile.dev -t 102205:react-test ./client && docker run 102205:react-test npm test -- --coverage
+        docker run --rm -e CI=true ${{ env.TEST_TAG }} npm test -- --coverage
 
     # - name: Build multi docker images
     #   run: |
