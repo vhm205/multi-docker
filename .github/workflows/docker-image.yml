@@ -19,8 +19,6 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
-      # with:
-      #   buildkitd-flags: --debug
 
     - name: Login to Docker Hub
       uses: docker/login-action@v2
@@ -46,3 +44,21 @@ jobs:
         docker build -t 102205/multi-nginx ./nginx
         docker build -t 102205/multi-server ./server
         docker build -t 102205/multi-worker ./worker
+
+    - name: Push multi docker images
+      run: |
+        docker push 102205/multi-client
+        docker push 102205/multi-nginx
+        docker push 102205/multi-server
+        docker push 102205/multi-worker
+
+    - name: Deploy to Elastic Beanstalk
+      uses: aws/elastic-beanstalk-deploy@v3
+      with:
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
+        application_name: multi-docker
+        environment_name: Multidocker-env
+        version_label: ${{ github.sha }}
+        region: ap-southeast-1
+
