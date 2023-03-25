@@ -52,13 +52,17 @@ jobs:
         docker push 102205/multi-server
         docker push 102205/multi-worker
 
-    - name: Deploy to Elastic Beanstalk
-      uses: aws/elastic-beanstalk-deploy@v3
+    - name: Generate deployment package to deploy EB
+      run: zip -r deploy.zip . -x '*.git*'
+
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v21
       with:
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_KEY }}
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
         application_name: multi-docker
         environment_name: Multidocker-env
         version_label: ${{ github.sha }}
         region: ap-southeast-1
+        deployment_package: deploy.zip
 
