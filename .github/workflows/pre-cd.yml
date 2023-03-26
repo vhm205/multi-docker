@@ -6,10 +6,9 @@ on:
 
 env:
   TEST_TAG: 102205/multi-docker-client:test
-  LATEST_TAG: 102205/multi-docker:latest
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
