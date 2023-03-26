@@ -4,8 +4,11 @@ on:
   push:
     branches: [ "main" ]
 
+env:
+  TEST_TAG: 102205/multi-docker-client:test
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
