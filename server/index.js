@@ -4,8 +4,8 @@ const keys = require("./keys");
 const express = require("express");
 const bodyParser = require("body-parser");
 const fs = require('fs');
-const http2 = require('http2');
-const http2Express = require('http2-express-bridge');
+// const http2 = require('http2');
+// const http2Express = require('http2-express-bridge');
 const path = require('path');
 const cors = require("cors");
 
@@ -158,5 +158,6 @@ app.post('/upload', async (req, res) => {
 // server.listen(5001);
 
 app.listen(5001, (err) => {
+  if(err) process.exit(0);
   console.log("Listening");
 });
