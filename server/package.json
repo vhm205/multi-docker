@@ -2,11 +2,11 @@
   "dependencies": {
     "body-parser": "*",
     "cors": "2.8.4",
-    "express": "4.16.3",
+    "express": "4.17.3",
     "http2-express-bridge": "^1.0.7",
-    "nodemon": "1.18.3",
+    "nodemon": "2.0.17",
     "pg": "8.0.3",
-    "redis": "2.8.0"
+    "redis": "3.1.1"
   },
   "scripts": {
     "dev": "nodemon",
