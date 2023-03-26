@@ -1,0 +1,62 @@
+name: Deploy to EB
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+    - name: Build and export to Docker
+      uses: docker/build-push-action@v4
+      with:
+        context: ./client
+        file: ./client/Dockerfile.dev
+        load: true
+        tags: ${{ env.TEST_TAG }}
+
+    - name: Run test
+      run: |
+        docker run --rm -e CI=true ${{ env.TEST_TAG }} npm test -- --coverage
+
+    - name: Build multi docker images
+      run: |
+        docker build -t 102205/multi-client ./client
+        docker build -t 102205/multi-nginx ./nginx
+        docker build -t 102205/multi-server ./server
+        docker build -t 102205/multi-worker ./worker
+
+    - name: Push multi docker images
+      run: |
+        docker push 102205/multi-client
+        docker push 102205/multi-nginx
+        docker push 102205/multi-server
+        docker push 102205/multi-worker
+
+    - name: Generate deployment package to deploy EB
+      run: zip -r deploy.zip . -x '*.git*'
+
+    - name: Deploy to EB
+      uses: einaregilsson/beanstalk-deploy@v21
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+        application_name: multi-docker
+        environment_name: Multidocker-env
+        version_label: ${{ github.sha }}
+        region: ap-southeast-1
+        deployment_package: deploy.zip
+

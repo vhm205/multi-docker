@@ -1,8 +1,6 @@
-name: Docker Image CI
+name: Pre-deploy
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
@@ -19,8 +17,6 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
-      # with:
-      #   buildkitd-flags: --debug
 
     - name: Login to Docker Hub
       uses: docker/login-action@v2
@@ -39,10 +35,3 @@ jobs:
     - name: Run test
       run: |
         docker run --rm -e CI=true ${{ env.TEST_TAG }} npm test -- --coverage
-
-    - name: Build multi docker images
-      run: |
-        docker build -t 102205/multi-client ./client
-        docker build -t 102205/multi-nginx ./nginx
-        docker build -t 102205/multi-server ./server
-        docker build -t 102205/multi-worker ./worker
