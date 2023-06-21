@@ -4,8 +4,8 @@
     "cors": "2.8.4",
     "express": "4.16.3",
     "http2-express-bridge": "^1.0.7",
-    "nodemon": "1.18.3",
-    "pg": "8.0.3",
+    "nodemon": "2.0.17",
+    "pg": "8.4.0",
     "redis": "2.8.0"
   },
   "scripts": {
