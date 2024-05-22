@@ -4,7 +4,7 @@
     "cors": "2.8.4",
     "express": "4.16.3",
     "http2-express-bridge": "^1.0.7",
-    "nodemon": "1.18.3",
+    "nodemon": "2.0.0",
     "pg": "8.0.3",
     "redis": "2.8.0"
   },
