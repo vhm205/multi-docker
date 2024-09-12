@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "body-parser": "*",
+    "body-parser": "1.20.3",
     "cors": "2.8.4",
-    "express": "4.16.3",
+    "express": "4.21.0",
     "http2-express-bridge": "^1.0.7",
     "nodemon": "1.18.3",
     "pg": "8.0.3",
